@@ -18,13 +18,13 @@ import PlaylistRemoveIcon from "@mui/icons-material/PlaylistRemove";
 import { Fab, Checkbox } from "@mui/material";
 
 import CustomTheme from "../AmazonMusic/CustomTheme";
-import MessageComponent from "../MessageComponent";
 
 import { setPlayerPlaying } from "../../App/features/albums/selectedAlbumSlice";
 import { setOpen } from "../../App/features/comingSoon/comingSoonSlice";
 import { useDispatch, useSelector } from "react-redux";
 
 import { SONG_DETAILS_COLOR } from "../AmazonMusic/constants";
+import { useAuthenticate } from "../../Utils/CustomHook";
 
 import { styles } from "./songDetails.style";
 
@@ -41,12 +41,15 @@ const SongDetails = ({
   openModal,
 }) => {
   const { playerPlaying } = useSelector((state) => state?.selectedAlbums);
+  const authenticate = useAuthenticate();
   const dispatch = useDispatch();
 
   const shuffleSongs = () => {
+    if (!authenticate()) return;
     dispatch(setOpen());
   };
   const handleAddRemove = () => {
+    if (!authenticate()) return;
     addDeleteSavedData({
       title,
       artists,
@@ -56,6 +59,11 @@ const SongDetails = ({
       release,
       _id,
     });
+  };
+
+  const handlePlay = () => {
+    if (!authenticate()) return;
+    dispatch(setPlayerPlaying(playerPlaying));
   };
   return (
     <>
@@ -134,11 +142,7 @@ const SongDetails = ({
               </Typography>
             </CardContent>
             <Box sx={styles.BTN_CONTAINER_STYLE}>
-              <Fab
-                variant="extended"
-                color="secondary"
-                onClick={() => dispatch(setPlayerPlaying(playerPlaying))}
-              >
+              <Fab variant="extended" color="secondary" onClick={handlePlay}>
                 {!playerPlaying ? <PlayArrowIcon /> : <PauseIcon />}{" "}
                 {!playerPlaying ? "Play" : "Pause"}
               </Fab>

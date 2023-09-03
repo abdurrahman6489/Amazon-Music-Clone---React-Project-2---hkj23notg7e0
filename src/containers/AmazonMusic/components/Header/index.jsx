@@ -9,14 +9,17 @@ import UserAvatar from "./components/UserAvatar";
 import HomeButton from "./components/HomeButton";
 import LibraryButton from "./components/LibraryButton";
 import PodcastButton from "./components/PodcastButton";
+import AmazonIcon from "./components/AmazonIcon";
 import "./style.css";
 import { styles } from "./index.style";
 
 import { HEADER_COLORS, routeBtnLabelArray } from "../../constants";
+import LINKS from "../../../links";
+import { useNavigate } from "react-router";
 
 const Header = () => {
   const [btnLabelArray, setBtnLabelArray] = useState(routeBtnLabelArray);
-
+  const navigate = useNavigate();
   const headerBtnComponents = {
     Home: HomeButton,
     Library: LibraryButton,
@@ -44,7 +47,9 @@ const Header = () => {
               backgroundImage:
                 "url(https://d5fx445wy2wpk.cloudfront.net/static/logo.svg)",
             }}
+            onClick={() => navigate(LINKS.home)}
           ></Box>
+          <AmazonIcon />
           {btnLabelArray?.map((btn) => {
             const { isActive, label } = btn;
             const key = label;

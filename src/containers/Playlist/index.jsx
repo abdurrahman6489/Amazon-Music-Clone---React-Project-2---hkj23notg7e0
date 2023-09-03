@@ -19,7 +19,10 @@ import {
   opentheModal,
 } from "../../App/features/User/userSlice";
 
+import { useAuthenticate } from "../../Utils/CustomHook";
+
 const Playlist = () => {
+  const authenticate = useAuthenticate();
   const [shareModalOpen, setShareModalOpen] = useState(false);
   const { id } = useParams();
 
@@ -30,21 +33,17 @@ const Playlist = () => {
   const { savedAlbums, savedSongs, isLoggedIn } = useSelector(
     (state) => state?.user
   );
-  const isAlbumSaved = savedAlbums?.some((savedAlbum) => savedAlbum._id === id);
+  const isAlbumSaved = savedAlbums?.some(
+    (savedAlbum) => savedAlbum._id === id && isLoggedIn
+  );
 
   const handleAddRemoveAlbum = ({ ...album }) => {
-    if (!isLoggedIn) {
-      dispatch(opentheModal());
-      return;
-    }
+    if (!authenticate()) return;
     dispatch(addRemoveAlbums({ album }));
   };
 
   const addRemoveSong = ({ ...song }) => {
-    if (!isLoggedIn) {
-      dispatch(opentheModal());
-      return;
-    }
+    if (!authenticate()) return;
     dispatch(addRemoveSongs({ song }));
   };
 
@@ -65,7 +64,9 @@ const Playlist = () => {
         {...song}
         songNo={index + 1}
         key={song._id}
-        isSongSaved={savedSongs?.some((savedSong) => savedSong._id == song._id)}
+        isSongSaved={savedSongs?.some(
+          (savedSong) => savedSong._id == song._id && isLoggedIn
+        )}
         addRemoveSavedData={addRemoveSong}
         audioTrackIndex={audioTrackIndex}
       />
@@ -89,6 +90,7 @@ const Playlist = () => {
             isDataSaved={isAlbumSaved}
             addDeleteSavedData={handleAddRemoveAlbum}
             openModal={openModal}
+            authenticate={authenticate}
           />
           <Box sx={{ mt: "5vh", mb: "15vh" }}>{allSongs}</Box>
         </Box>

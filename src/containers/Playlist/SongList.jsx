@@ -7,8 +7,9 @@ import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
 import { AiFillPlayCircle } from "react-icons/ai";
 
 import CustomTheme from "../AmazonMusic/CustomTheme";
+import { useAuthenticate } from "../../Utils/CustomHook";
 
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { setAudioTrackIndex } from "../../App/features/albums/selectedAlbumSlice";
 
 import "./style.css";
@@ -31,10 +32,13 @@ const SongList = ({
 }) => {
   const dispatch = useDispatch();
 
+  const authenticate = useAuthenticate();
+
   const isActiveSong = audioTrackIndex == songNo - 1;
   const activeColor = isActiveSong ? "secondary" : "primary";
   const iconActiveColor = isActiveSong ? "hsla(183, 71%, 50%, 0.8)" : "#FFF";
   const textActiveColor = isActiveSong ? "hsl(183, 71%, 50%)" : "#FFF";
+
   const addOrRemoveSong = () => {
     addRemoveSavedData({
       title,
@@ -48,6 +52,7 @@ const SongList = ({
   };
 
   const handleClick = (event) => {
+    if (!authenticate()) return;
     if (event.target?.name == "addSongs") {
       addOrRemoveSong();
       return;
