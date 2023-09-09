@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./style.css";
 
 import {
@@ -24,6 +24,10 @@ import { styles } from "./index.style";
 const MusicModal = ({ open, setOpen }) => {
   const handleClose = () => setOpen(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    return () => handleClose();
+  }, []);
 
   return (
     <>

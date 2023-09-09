@@ -91,7 +91,7 @@ export const MODAL_STYLE = {
   alignItems: "center",
   width: "100%",
   height: "100%",
-  bgcolor: "rgba(0, 0, 0, 0.92)",
+  bgcolor: "rgba(0, 0, 0, 0.5)",
   boxShadow: 24,
   p: 4,
   paddingTop: 5,

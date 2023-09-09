@@ -12,7 +12,7 @@ const SignoutButton = () => {
   const dispatch = useDispatch();
   const handleClick = () => {
     dispatch(signOutUser());
-    navigate(LINKS.home);
+    navigate(LINKS.login);
   };
   return (
     <CustomTheme {...SIGN_IN_SIGN_OUT_BTN_COLOR}>

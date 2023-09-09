@@ -1,28 +1,39 @@
 export const CONTAINER_STYLE = {
   display: "flex",
   flexDirection: "column",
+  backgroundColor: "rgba(0, 0, 0, 0.8)",
   justifyContent: {
     lg: "space-between",
-    md: "space-between%",
-    sm: "space-between%",
+    md: "space-between",
+    sm: "space-between",
     xs: "flex-start",
   },
   alignItems: "center",
   position: "relative",
   width: { lg: "40%", md: "70%", sm: "80%", xs: "90%" },
   minHeight: { xs: "100vh", sm: "auto", md: "auto", lg: "auto" },
+  p: 4,
+  borderRadius: "0.5em",
 };
 
 export const MODAL_STYLE = {
   p: { lg: 4, md: 4, sm: 4, xs: 0 },
   paddingTop: { lg: 5, md: 5, sm: 5, xs: 0 },
 };
-export const CLOSE_BTN_STYLE = { textAlign: "right", width: "100%" };
+export const CLOSE_BTN_STYLE = {
+  display: "flex",
+  flexDirection: "row",
+  justifyContent: "center",
+  alignItems: "center",
+  width: "100%",
+};
 
 export const PLAYLIST_HEADING_STYLE = {
   fontFamily: `Helvetica Arial "sans-serif"`,
   fontSize: "18",
   textOverFlow: "ellipsis",
+  flexGrow: 1,
+  textAlign: "center",
 };
 
 export const IMG_CONTAINER_STYLE = {
@@ -87,6 +98,15 @@ export const BUTTON_STYLE = {
   },
 };
 
+export const COPIED_BUTTON_STYLE = {
+  color: "hsl(0, 1%, 26%)",
+  backgroundColor: "hsla(0, 0%, 100%, 0.8)",
+  ":hover": {
+    backgroundColor: "hsla(0, 0%, 100%, 0.9)",
+    transform: "scale(1.1)",
+  },
+};
+
 export const COPY_BTN_TEXT_STYLE = {
   ml: 1,
   display: {
@@ -109,5 +129,6 @@ export const shareModaStyles = {
   TITLE_STYLE,
   BTN_CONTAINER_STYLE,
   BUTTON_STYLE,
+  COPIED_BUTTON_STYLE,
   COPY_BTN_TEXT_STYLE,
 };

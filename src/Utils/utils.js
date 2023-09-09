@@ -17,11 +17,10 @@ export function shareOnTwitter(title, pageUrl) {
   window.open(`${twitterUrl}${text}`, "_blank");
 }
 
-export function shareOnFacebook(title, pageUrl) {
-  let facebookUrl = `https://www.facebook.com/sharer/sharer.php?u=`;
-  let text = `Check out the ${title}
-              ${pageUrl}`;
-  window.open(`${facebookUrl}${text}`, "_blank");
+export function shareOnFacebook(title = "", pageUrl = "") {
+  const navUrl = "https://www.facebook.com/sharer/sharer.php?u=" + `${pageUrl}`;
+
+  window.open(navUrl, "_blank");
 }
 
 export function copyToClipboard(data) {

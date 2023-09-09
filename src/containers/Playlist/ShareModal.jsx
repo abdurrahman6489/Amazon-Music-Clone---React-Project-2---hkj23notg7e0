@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router";
 import {
   Typography,
@@ -13,6 +13,7 @@ import CopyAllIcon from "@mui/icons-material/CopyAll";
 import { FacebookRounded, Twitter } from "@mui/icons-material";
 
 import CustomTheme from "../AmazonMusic/CustomTheme";
+import CopiedLinkButton from "./CopiedLInkButton";
 import { MODAL_COLOR, MODAL_STYLE } from "../AmazonMusic/constants";
 import { setOpen } from "../../App/features/comingSoon/comingSoonSlice";
 import { useDispatch } from "react-redux";
@@ -24,19 +25,33 @@ import {
 } from "../../Utils/utils";
 import { URLS } from "../AmazonMusic/constants";
 import { shareModaStyles } from "./shareModal.style";
-import FEATURECOMINGSOON from "../FEATURECOMINGSOON";
 
 const ShareModal = ({ open, close, title, description, image, _id }) => {
+  const [copiedLinkOpen, setCopiedLinkOpen] = useState(false);
+  const openRef = useRef();
   const dispatch = useDispatch();
   const location = useLocation();
   const pathname = location.pathname;
   const handleClose = () => close();
+
+  useEffect(() => {
+    openRef.current = setTimeout(() => {
+      setCopiedLinkOpen(false);
+    }, 2000);
+    return () => clearTimeout(openRef.current);
+  }, [copiedLinkOpen]);
+
   const faceBookShare = () => {
-    dispatch(setOpen());
+    shareOnFacebook(title, URLS.BASE_URL + pathname);
   };
 
   const twitterShare = () => {
     shareOnTwitter(title, URLS.BASE_URL + pathname);
+  };
+
+  const handleCopiedLink = () => {
+    copyToClipboard(URLS.BASE_URL + pathname);
+    setCopiedLinkOpen(true);
   };
   return (
     <>
@@ -53,20 +68,21 @@ const ShareModal = ({ open, close, title, description, image, _id }) => {
           <CustomTheme {...MODAL_COLOR}>
             <Box sx={shareModaStyles.CONTAINER_STYLE}>
               <Box component="div" sx={shareModaStyles.CLOSE_BTN_STYLE}>
+                <Typography
+                  variant="h5"
+                  component="h2"
+                  color="secondary"
+                  sx={shareModaStyles.PLAYLIST_HEADING_STYLE}
+                >
+                  Share this playlist
+                </Typography>
                 <Tooltip onClick={handleClose} placement="top" title="Close">
                   <IconButton size="small" color="inherit">
                     <DisabledByDefaultIcon color="secondary" />
                   </IconButton>
                 </Tooltip>
               </Box>
-              <Typography
-                variant="h5"
-                component="h2"
-                color="secondary"
-                sx={shareModaStyles.PLAYLIST_HEADING_STYLE}
-              >
-                Share this playlist
-              </Typography>
+
               <Box component="div" sx={shareModaStyles.IMG_CONTAINER_STYLE}>
                 <Box
                   component="div"
@@ -103,7 +119,7 @@ const ShareModal = ({ open, close, title, description, image, _id }) => {
                   </Typography>
                 </Box>
               </Box>
-              <Box component="div" sx={{ width: "100%" }}>
+              <Box component="div" sx={{ width: "100%", mt: 2 }}>
                 <Typography variant="body2" color="rgba(255, 255, 255, 0.6)">
                   Share link
                 </Typography>
@@ -132,22 +148,25 @@ const ShareModal = ({ open, close, title, description, image, _id }) => {
                   </Fab>
                 </Box>
                 <Box flex={2}>
-                  <Fab
-                    variant="extended"
-                    sx={{
-                      ...shareModaStyles.BUTTON_STYLE,
-                      width: "80%",
-                    }}
-                    onClick={() => copyToClipboard(URLS.BASE_URL + pathname)}
-                  >
-                    <CopyAllIcon />
-                    <Typography
-                      variant="button"
-                      sx={shareModaStyles.COPY_BTN_TEXT_STYLE}
+                  {!copiedLinkOpen && (
+                    <Fab
+                      variant="extended"
+                      sx={{
+                        ...shareModaStyles.BUTTON_STYLE,
+                        width: "80%",
+                      }}
+                      onClick={handleCopiedLink}
                     >
-                      Copy link
-                    </Typography>
-                  </Fab>
+                      <CopyAllIcon />
+                      <Typography
+                        variant="button"
+                        sx={shareModaStyles.COPY_BTN_TEXT_STYLE}
+                      >
+                        Copy link
+                      </Typography>
+                    </Fab>
+                  )}
+                  {copiedLinkOpen && <CopiedLinkButton />}
                 </Box>
               </Box>
             </Box>

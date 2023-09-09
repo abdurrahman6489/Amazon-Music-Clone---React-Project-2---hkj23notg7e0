@@ -6,6 +6,9 @@ export const CONTAINER_STYLE = {
   gap: "1em",
   position: "relative",
   width: { lg: "40%", md: "70%", sm: "80%", xs: "85%" },
+  backgroundColor: "rgba(0, 0, 0, 0.8)",
+  p: 4,
+  borderRadius: "0.5em",
 };
 
 export const CLOSE_BTN_CONTAINER_STYLE = {
