@@ -7,6 +7,7 @@ import { useNavigate } from "react-router";
 import LINKS from "../links";
 
 import { login, updatePassword } from "../../App/features/User/userSlice";
+import { setOpen } from "../../App/features/comingSoon/comingSoonSlice";
 import { useSelector, useDispatch } from "react-redux";
 
 import Loader from "../AmazonMusic/components/Loader";
@@ -40,6 +41,7 @@ function Login() {
 
   useEffect(() => {
     if (isLoggedIn && !isPasswordUpdate) {
+      dispatch(setOpen("Successfully logged in!"));
       navigate(LINKS.home);
     }
   }, [isLoggedIn, isPasswordUpdate]);

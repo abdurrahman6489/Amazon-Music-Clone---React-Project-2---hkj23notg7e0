@@ -68,9 +68,3 @@ export const registeredUserSlice = createSlice({
 });
 export const { setMsgDisplayedFalse } = registeredUserSlice.actions;
 export default registeredUserSlice.reducer;
-// {
-//     "name" : "Abdul Rahman",
-//     "email" : "abdurrahman@gmail.com",
-//     "password" : "123456789",
-//     "appType" : "music"
-// }
