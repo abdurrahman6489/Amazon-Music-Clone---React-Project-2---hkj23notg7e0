@@ -16,8 +16,7 @@ const Layout = ({ children }) => {
   return (
     <div className="layout">
       <Header />
-      <div style={{ marginTop: "3rem", marginBottom: "3vh" }}></div>
-      Layout
+      <div style={{ marginTop: "5rem", marginBottom: "3vh" }}></div>
       {children}
       {playerOpen && isLoggedIn && <MusicPlayer />}
       <MusicModal open={modalOpen} setOpen={() => dispatch(closetheModal())} />
