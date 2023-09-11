@@ -29,7 +29,7 @@ function App() {
   useUserData();
   useAllSongs();
   const { msgDisplayed, message, handleClose } = useMessage();
-  const { open, msg } = useSelector((state) => state?.comingSoon);
+  const { open } = useSelector((state) => state?.comingSoon);
   const router = createBrowserRouter([
     {
       path: links.home,
@@ -107,7 +107,7 @@ function App() {
   ]);
   return (
     <>
-      <FEATURECOMINGSOON open={open} msg={msg} time={3000} />
+      <FEATURECOMINGSOON open={open} />
       <MessageComponent
         msg={message}
         setOpen={handleClose}

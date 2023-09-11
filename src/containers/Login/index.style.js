@@ -8,10 +8,10 @@ const STACK_STYLE = {
   width: "100dvw",
 };
 const BACK_BTN_BOX_STYLE = {
-  display: { xs: "block", sm: "block", md: "none", lg: "none" },
-  textAlign: "left",
-  pl: 3,
-  pt: 1,
+  display: { xs: "flex", sm: "block", md: "none", lg: "none" },
+  flexDirection: "row",
+  justifyContent: "flex-start",
+  alignItems: "flex-start",
 };
 
 const CONTAINER_STYLE = {

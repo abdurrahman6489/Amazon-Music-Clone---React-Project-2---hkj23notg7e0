@@ -4,14 +4,11 @@ import React from "react";
 
 import { useNavigate } from "react-router";
 import LINKS from "../links";
-
-import { styles } from "./backbtn.style";
-
 const BackButton = () => {
   const navigate = useNavigate();
 
   return (
-    <IconButton sx={styles.BACK_BTN_STYLE} onClick={() => navigate(LINKS.home)}>
+    <IconButton sx={{ mt: 3, ml: 5 }} onClick={() => navigate(LINKS.home)}>
       <ArrowBackIosNewIcon fontSize="small" color="primary" />
     </IconButton>
   );
