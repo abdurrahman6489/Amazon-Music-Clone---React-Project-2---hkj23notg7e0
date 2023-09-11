@@ -1,4 +1,4 @@
-# [Amazon Music Clone](https://amazon-music.netlify.app/)
+# [Amazon Music Clone](https://musical-amazon.netlify.app/)
 
 ## Tech used are React, JavaScript, HTML, CSS
 
