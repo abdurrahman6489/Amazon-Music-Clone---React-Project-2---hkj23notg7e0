@@ -13,7 +13,8 @@ export const URLS = {
   SIGN_UP_AUTH_URL: "https://academics.newtonschool.co/api/v1/user/signup",
   UPDATE_PASSWORD_URL:
     "https://academics.newtonschool.co/api/v1/user/updateMyPassword",
-  SONG_URL: "https://academics.newtonschool.co/api/v1/music/song",
+  SONG_URL:
+    "https://academics.newtonschool.co/api/v1/music/song?page=1&limit=100",
   ALBUM_URL: "https://academics.newtonschool.co/api/v1/music/album",
   ALL_ARTISTS_URL: "https://academics.newtonschool.co/api/v1/music/artist/",
   SEARCH_URL: "https://academics.newtonschool.co/api/v1/music/song?filter=",
