@@ -31,17 +31,13 @@ import { useAuthenticate } from "../../Utils/CustomHook";
 import { styles } from "./songDetails.style";
 
 const SongDetails = ({
-  title,
-  artists,
-  description,
+  album,
   songs,
-  image,
-  release,
-  _id,
   isDataSaved,
   addDeleteSavedData,
   openModal,
 }) => {
+  const { title, artists, description, image, release, _id } = album || {};
   const { playerPlaying } = useSelector((state) => state?.selectedAlbums);
   const authenticate = useAuthenticate();
   const dispatch = useDispatch();
@@ -127,7 +123,7 @@ const SongDetails = ({
                   ...styles.TEXT_ALIGN_STYLE,
                 }}
               >
-                {artists?.map((artist) => artist.name).join(", ")}
+                {artists?.join(", ")}
               </Typography>
               <Typography
                 variant="subtitle1"

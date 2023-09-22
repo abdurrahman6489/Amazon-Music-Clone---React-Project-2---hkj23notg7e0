@@ -19,7 +19,7 @@ const Category = ({ mood, playListName, songs, isFilter }) => {
 
   let filterFunction;
   if (isFilter) {
-    filterFunction = (song) => song.mood === mood;
+    filterFunction = (song) => song.playListName === playListName;
   } else filterFunction = (song) => true;
 
   let filteredSongs = songs?.filter(filterFunction);

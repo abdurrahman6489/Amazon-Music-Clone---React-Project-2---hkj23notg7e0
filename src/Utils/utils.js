@@ -92,3 +92,5 @@ export const emailPasswordValidation = ({ email, password }) => {
     passwordError,
   };
 };
+
+export const getAPI_URL = () => "https://amazonmusic-gyeb.onrender.com";

@@ -1,4 +1,4 @@
-import { MAKE_COLORS, MAKE_DISPLAY } from "../../Utils/utils";
+import { MAKE_COLORS, MAKE_DISPLAY, getAPI_URL } from "../../Utils/utils";
 
 //for api calls
 export const config = {
@@ -9,15 +9,14 @@ export const config = {
 };
 
 export const URLS = {
-  SIGN_IN_AUTH_URL: "https://academics.newtonschool.co/api/v1/user/login",
-  SIGN_UP_AUTH_URL: "https://academics.newtonschool.co/api/v1/user/signup",
+  SIGN_IN_AUTH_URL: `${getAPI_URL()}/api/v1/users/login`,
+  SIGN_UP_AUTH_URL: `${getAPI_URL()}/api/v1/users/register`,
   UPDATE_PASSWORD_URL:
     "https://academics.newtonschool.co/api/v1/user/updateMyPassword",
-  SONG_URL:
-    "https://academics.newtonschool.co/api/v1/music/song?page=1&limit=100",
-  ALBUM_URL: "https://academics.newtonschool.co/api/v1/music/album",
+  SONG_URL: `${getAPI_URL()}/api/v1/songs/getSongs`,
+  ALBUM_URL: `${getAPI_URL()}/api/v1/albums/getAlbums`,
   ALL_ARTISTS_URL: "https://academics.newtonschool.co/api/v1/music/artist/",
-  SEARCH_URL: "https://academics.newtonschool.co/api/v1/music/song?filter=",
+  SEARCH_URL: `${getAPI_URL()}/api/v1/songs/getSongs?filter=`,
   BASE_URL: "https://musical-amazon.netlify.app",
 };
 

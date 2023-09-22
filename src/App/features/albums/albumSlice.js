@@ -12,7 +12,7 @@ export const getAlbums = createAsyncThunk(
   "albums/getAlbums",
   async (thunkAPI) => {
     try {
-      const response = await axios.get(URLS.SONG_URL, config);
+      const response = await axios.get(URLS.ALBUM_URL, config);
       const data = response.data.data;
       console.log("albumSlice ", data);
       return data;
