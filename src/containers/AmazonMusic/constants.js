@@ -1,12 +1,12 @@
-import { MAKE_COLORS, MAKE_DISPLAY, getAPI_URL } from "../../Utils/utils";
+import {
+  MAKE_COLORS,
+  MAKE_DISPLAY,
+  getAPI_URL,
+  getHeaderAuth,
+} from "../../Utils/utils";
 
 //for api calls
-export const config = {
-  headers: {
-    projectId: "hkj23notg7e0",
-    // Authorization : "Bearer token"
-  },
-};
+export const config = getHeaderAuth();
 
 export const URLS = {
   SIGN_IN_AUTH_URL: `${getAPI_URL()}/api/v1/users/login`,
@@ -17,6 +17,10 @@ export const URLS = {
   ALBUM_URL: `${getAPI_URL()}/api/v1/albums/getAlbums`,
   ALL_ARTISTS_URL: "https://academics.newtonschool.co/api/v1/music/artist/",
   SEARCH_URL: `${getAPI_URL()}/api/v1/songs/getSongs?filter=`,
+  SAVED_SONG_URL: `${getAPI_URL()}/api/v1/savedSongs/getSavedSongs`,
+  ADD_DELETE_SONG_URL: `${getAPI_URL()}/api/v1/savedSongs/addDeleteSong`,
+  SAVED_ALBUM_URL: `${getAPI_URL()}/api/v1/savedAlbums/getSavedAlbums`,
+  ADD_DELETE_ALBUM_URL: `${getAPI_URL()}/api/v1/savedAlbums/addDeleteAlbum`,
   BASE_URL: "https://musical-amazon.netlify.app",
 };
 

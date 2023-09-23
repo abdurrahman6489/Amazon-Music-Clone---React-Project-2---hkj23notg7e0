@@ -10,7 +10,12 @@ import {
   opentheModal,
 } from "../App/features/User/userSlice";
 import { setAllSongs } from "../App/features/allSongs/allSongsSlice";
-import { getFromLocalStorage, saveToLocalStorage } from "./utils";
+import {
+  getFromLocalStorage,
+  saveToLocalStorage,
+  getDecodedToken,
+  getAuthTokenKey,
+} from "./utils";
 import { setMsgDisplayedFalse } from "../App/features/User/registerUserSlice";
 
 export function useAlbums() {
@@ -22,27 +27,21 @@ export function useAlbums() {
 
 export function useUserData() {
   const dispatch = useDispatch();
-  const savedUserDetails = getFromLocalStorage("authUserDetails");
+  const authToken = JSON.parse(localStorage.getItem("auth-token-amazon"));
+  const savedUserDetails = getDecodedToken(authToken);
   const savedUserAlbums = getFromLocalStorage("authUserAlbums");
   const savedUserSongs = getFromLocalStorage("authUserSongs");
-  const { name, email, token, savedAlbums, savedSongs } = useSelector(
-    (state) => state.user
-  );
-  const isLoggedIn = token ? true : false;
-  const userDetails = {
-    name,
-    email,
-    token,
-    isLoggedIn,
-  };
+
+  const { token, savedAlbums, savedSongs } = useSelector((state) => state.user);
 
   useEffect(() => {
-    if (
-      savedUserDetails &&
-      Object.keys(savedUserDetails)?.length > 0 &&
-      savedUserDetails?.token
-    ) {
-      dispatch(updateSavedUserDetails({ ...savedUserDetails }));
+    if (savedUserDetails && Object.keys(savedUserDetails)?.length > 0) {
+      dispatch(
+        updateSavedUserDetails({
+          ...savedUserDetails,
+          authToken,
+        })
+      );
     }
     if (savedUserAlbums && savedUserAlbums?.length > 0) {
       dispatch(updateSavedAlbums({ savedAlbums: savedUserAlbums }));
@@ -52,10 +51,10 @@ export function useUserData() {
     }
   }, []);
   useEffect(() => {
-    saveToLocalStorage("authUserDetails", userDetails);
+    saveToLocalStorage(getAuthTokenKey(), token);
     saveToLocalStorage("authUserAlbums", savedAlbums);
     saveToLocalStorage("authUserSongs", savedSongs);
-  }, [savedSongs, savedAlbums, userDetails]);
+  }, [savedSongs, savedAlbums, token]);
 }
 
 export function useAllSongs() {

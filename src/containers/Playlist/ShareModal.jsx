@@ -26,11 +26,8 @@ import {
 import { URLS } from "../AmazonMusic/constants";
 import { shareModaStyles } from "./shareModal.style";
 
-const ShareModal = ({
-  open,
-  close,
-  album: { title, description, image, _id },
-}) => {
+const ShareModal = ({ open, close, album }) => {
+  const { title, description, image, _id } = album || {};
   const [copiedLinkOpen, setCopiedLinkOpen] = useState(false);
   const openRef = useRef();
   const dispatch = useDispatch();

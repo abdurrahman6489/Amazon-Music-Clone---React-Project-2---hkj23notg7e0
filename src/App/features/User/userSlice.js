@@ -1,10 +1,12 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import { URLS, config } from "../../../containers/AmazonMusic/constants";
+import { getDecodedToken } from "../../../Utils/utils";
 
 const initialState = {
   name: "",
   email: "",
+  role: "user",
   loading: false,
   isLoggedIn: false,
   isPasswordUpdate: false,
@@ -25,7 +27,8 @@ export const login = createAsyncThunk(
         config
       );
       const token = response.data.token;
-      const data = response.data.data;
+      // const data = response.data.data;
+      const data = getDecodedToken(token);
       console.log("from userSlice data is ", data, "token is ", token);
       return { token, data };
     } catch (error) {
@@ -40,10 +43,6 @@ export const updatePassword = createAsyncThunk(
   "user/updatePasswordRedux",
   async (credentials, { rejectWithValue }) => {
     try {
-      const userDetails =
-        JSON.parse(localStorage.getItem("authUserDetails")) || {};
-      config.headers.Authorization = `Bearer ${userDetails.token}`;
-
       const response = await axios.patch(
         URLS.UPDATE_PASSWORD_URL,
         credentials,
@@ -64,11 +63,12 @@ export const userSlice = createSlice({
   initialState,
   reducers: {
     updateSavedUserDetails: (state, action) => {
-      const { name, email, token, isLoggedIn } = action.payload;
+      const { name, email, authToken, role } = action.payload;
       state.name = name;
       state.email = email;
-      state.token = token;
-      state.isLoggedIn = isLoggedIn;
+      state.token = authToken;
+      state.role = role;
+      state.isLoggedIn = true;
     },
     updateSavedAlbums: (state, action) => {
       const { savedAlbums } = action.payload;
@@ -127,6 +127,7 @@ export const userSlice = createSlice({
       state.token = action.payload.token;
       state.name = action.payload.data.name;
       state.email = action.payload.data.email;
+      state.role = action.payload.data.role;
       state.error = "";
       state.modalOpen = false;
       state.isPasswordUpdate = false;
