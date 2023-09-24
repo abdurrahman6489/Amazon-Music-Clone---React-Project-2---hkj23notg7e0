@@ -7,7 +7,9 @@ const initialState = {
   name: "",
   email: "",
   role: "user",
-  loading: false,
+  userLoading: false,
+  songLoading: false,
+  albumLoading: false,
   isLoggedIn: false,
   isPasswordUpdate: false,
   token: "",
@@ -27,7 +29,6 @@ export const login = createAsyncThunk(
         config
       );
       const token = response.data.token;
-      // const data = response.data.data;
       const data = getDecodedToken(token);
       console.log("from userSlice data is ", data, "token is ", token);
       return { token, data };
@@ -58,6 +59,66 @@ export const updatePassword = createAsyncThunk(
   }
 );
 
+export const getSavedAlbums = createAsyncThunk(
+  "user/getSavedAlbums",
+  async (thunkAPI) => {
+    try {
+      const response = await axios.get(URLS.SAVED_ALBUM_URL, config);
+      const data = response.data.data;
+      return data;
+    } catch (error) {
+      console.log(error);
+      return thunkAPI.rejectWithValue(error.response.data.message);
+    }
+  }
+);
+
+export const getSavedSongs = createAsyncThunk(
+  "user/getSavedSongs",
+  async (thunkAPI) => {
+    try {
+      const response = await axios.get(URLS.SAVED_SONG_URL, config);
+      const data = response.data.data;
+      return data;
+    } catch (error) {
+      console.log(error);
+      return thunkAPI.rejectWithValue(error.response.data.message);
+    }
+  }
+);
+
+export const addDeleteAlbum = createAsyncThunk(
+  "user/addDeleteAlbum",
+  async (album, { rejectWithValue }) => {
+    try {
+      const response = await axios.post(
+        URLS.ADD_DELETE_ALBUM_URL,
+        album,
+        config
+      );
+      const data = response.data.data;
+      return data;
+    } catch (error) {
+      console.log(error);
+      return rejectWithValue(error.response.data.message);
+    }
+  }
+);
+
+export const addDeleteSong = createAsyncThunk(
+  "user/addDeleteSong",
+  async (song, { rejectWithValue }) => {
+    try {
+      const response = await axios.post(URLS.ADD_DELETE_SONG_URL, song, config);
+      const data = response.data.data;
+      return data;
+    } catch (error) {
+      console.log(error);
+      return rejectWithValue(error.response.data.message);
+    }
+  }
+);
+
 export const userSlice = createSlice({
   name: "user",
   initialState,
@@ -69,34 +130,6 @@ export const userSlice = createSlice({
       state.token = authToken;
       state.role = role;
       state.isLoggedIn = true;
-    },
-    updateSavedAlbums: (state, action) => {
-      const { savedAlbums } = action.payload;
-      state.savedAlbums = savedAlbums;
-    },
-    updateSavedSongs: (state, action) => {
-      const { savedSongs } = action.payload;
-      state.savedSongs = savedSongs;
-    },
-    addRemoveAlbums: (state, action) => {
-      const { album } = action.payload;
-      const id = album._id;
-      const albumFoundIndex = state.savedAlbums.findIndex(
-        (album) => album._id == id
-      );
-      console.log(id);
-      if (albumFoundIndex === -1) state.savedAlbums.unshift(album);
-      else state.savedAlbums.splice(albumFoundIndex, 1);
-    },
-    addRemoveSongs: (state, action) => {
-      const { song } = action.payload;
-      const id = song._id;
-      const songFoundIndex = state.savedSongs.findIndex(
-        (song) => song._id == id
-      );
-      console.log(id);
-      if (songFoundIndex === -1) state.savedSongs.unshift(song);
-      else state.savedSongs.splice(songFoundIndex, 1);
     },
     signOutUser: (state) => {
       state.isLoggedIn = false;
@@ -119,10 +152,10 @@ export const userSlice = createSlice({
   },
   extraReducers: {
     [login.pending]: (state) => {
-      state.loading = true;
+      state.userLoading = true;
     },
     [login.fulfilled]: (state, action) => {
-      state.loading = false;
+      state.userLoading = false;
       state.isLoggedIn = true;
       state.token = action.payload.token;
       state.name = action.payload.data.name;
@@ -133,14 +166,14 @@ export const userSlice = createSlice({
       state.isPasswordUpdate = false;
     },
     [login.rejected]: (state, { payload }) => {
-      state.loading = false;
+      state.userLoading = false;
       state.error = payload;
     },
     [updatePassword.pending]: (state) => {
-      state.loading = true;
+      state.userLoading = true;
     },
     [updatePassword.fulfilled]: (state, action) => {
-      state.loading = false;
+      state.userLoading = false;
       state.isLoggedIn = true;
       state.token = action.payload.token;
       state.error = "";
@@ -148,17 +181,61 @@ export const userSlice = createSlice({
       state.isPasswordUpdate = false;
     },
     [updatePassword.rejected]: (state, { payload }) => {
-      state.loading = false;
+      state.userLoading = false;
+      state.error = payload;
+    },
+    [getSavedAlbums.pending]: (state) => {
+      state.albumLoading = true;
+    },
+    [getSavedAlbums.fulfilled]: (state, { payload }) => {
+      state.albumLoading = false;
+      state.error = "";
+      state.savedAlbums = payload;
+    },
+    [getSavedAlbums.rejected]: (state, { payload }) => {
+      state.albumLoading = false;
+      state.error = payload;
+    },
+    [getSavedSongs.pending]: (state) => {
+      state.songLoading = true;
+    },
+    [getSavedSongs.fulfilled]: (state, { payload }) => {
+      state.songLoading = false;
+      state.error = "";
+      state.savedSongs = payload;
+    },
+    [getSavedSongs.rejected]: (state, { payload }) => {
+      state.songLoading = false;
+      state.error = payload;
+    },
+    [addDeleteAlbum.pending]: (state) => {
+      state.albumLoading = true;
+    },
+    [addDeleteAlbum.fulfilled]: (state, { payload }) => {
+      state.albumLoading = false;
+      state.error = "";
+      state.savedAlbums = payload;
+    },
+    [addDeleteAlbum.rejected]: (state, { payload }) => {
+      state.albumLoading = false;
+      state.error = payload;
+    },
+    [addDeleteSong.pending]: (state) => {
+      state.songLoading = true;
+    },
+    [addDeleteSong.fulfilled]: (state, { payload }) => {
+      state.songLoading = false;
+      state.error = "";
+      state.savedSongs = payload;
+    },
+    [addDeleteSong.rejected]: (state, { payload }) => {
+      state.songLoading = false;
       state.error = payload;
     },
   },
 });
 export const {
   updateSavedUserDetails,
-  updateSavedAlbums,
-  updateSavedSongs,
-  addRemoveAlbums,
-  addRemoveSongs,
   signOutUser,
   opentheModal,
   closetheModal,

@@ -25,9 +25,8 @@ import {
 } from "../../Utils/utils";
 
 function Login() {
-  const { isLoggedIn, isPasswordUpdate, loading, error, name } = useSelector(
-    (state) => state?.user
-  );
+  const { isLoggedIn, isPasswordUpdate, userLoading, error, name } =
+    useSelector((state) => state?.user);
   const [userData, setUserData] = useState(INITIAL_STATE_LOG_IN);
   const [errorData, setErrorData] = useState(INITIAL_ERROR_DATA_LOG_IN);
   const [updatePasswordObj, setUpdatePasswordObj] = useState(
@@ -117,7 +116,7 @@ function Login() {
   const { emailError, passwordError } = errorData;
   const { value, updatePasswordError } = updatePasswordObj;
 
-  if (loading) return <Loader />;
+  if (userLoading) return <Loader />;
 
   return (
     <Stack sx={styles.STACK_STYLE}>

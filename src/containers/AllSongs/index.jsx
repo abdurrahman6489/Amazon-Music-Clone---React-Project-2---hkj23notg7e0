@@ -2,14 +2,23 @@ import { Box, Stack, Grid } from "@mui/material";
 
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useNavigate } from "react-router";
-import LINKS from "../links";
+import { getAllSongs } from "../../App/features/allSongs/allSongsSlice";
 import Song from "../AmazonMusic/components/Song";
+import CircularLoader from "../Playlist/CircularLoader";
+import Error from "../Login/Error";
 import "./style.css";
 import { styles } from "./index.style";
 const AllSongs = () => {
-  const { allSongs } = useSelector((state) => state.allSongs);
+  const { allSongs, loading, error, currentPlayList } = useSelector(
+    (state) => state?.allSongs
+  );
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getAllSongs(currentPlayList));
+  }, []);
 
+  if (loading) return <CircularLoader size={50} />;
+  if (error) return <Error msg={error} />;
   return (
     <Box sx={styles.BOX_STYLE}>
       <h1 style={styles.TITLE_STYLE}>All Songs</h1>

@@ -8,7 +8,7 @@ import { useDispatch } from "react-redux";
 import Song from "../Song";
 import PlayListController from "../Body/PlaylistController";
 
-import { getAllSongs } from "../../../../App/features/allSongs/allSongsSlice";
+import { setCurrentPlayst } from "../../../../App/features/allSongs/allSongsSlice";
 
 import LINKS from "../../../links";
 import { styles } from "./index.style";
@@ -35,7 +35,7 @@ const Category = ({ mood, playListName, songs, isFilter }) => {
   };
 
   const seeAllSongs = () => {
-    dispatch(getAllSongs(filteredSongs));
+    dispatch(setCurrentPlayst(playListName));
     navigate(LINKS.allSongs);
   };
 

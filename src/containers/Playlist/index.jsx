@@ -14,8 +14,8 @@ import { styles } from "./index.style";
 import { getSelectedAlbum } from "../../App/features/albums/selectedAlbumSlice";
 import { useSelector, useDispatch } from "react-redux";
 import {
-  addRemoveAlbums,
-  addRemoveSongs,
+  addDeleteAlbum,
+  addDeleteSong,
   opentheModal,
 } from "../../App/features/User/userSlice";
 
@@ -24,27 +24,27 @@ import { useAuthenticate } from "../../Utils/CustomHook";
 const Playlist = () => {
   const authenticate = useAuthenticate();
   const [shareModalOpen, setShareModalOpen] = useState(false);
+  const [selectedSongId, setSelectedSongId] = useState("");
   const { id } = useParams();
 
   const dispatch = useDispatch();
   const { loading, selectedAlbum, audioTrackIndex, error } = useSelector(
     (state) => state?.selectedAlbums
   );
-  const { savedAlbums, savedSongs, isLoggedIn } = useSelector(
-    (state) => state?.user
-  );
+  const { savedAlbums, savedSongs, isLoggedIn, songLoading, albumLoading } =
+    useSelector((state) => state?.user);
   const isAlbumSaved = savedAlbums?.some(
-    (savedAlbum) => savedAlbum._id === id && isLoggedIn
+    (savedAlbum) => savedAlbum?.albumId?._id === id && isLoggedIn
   );
-
-  const handleAddRemoveAlbum = ({ ...album }) => {
+  const handleAddRemoveAlbum = (albumId) => {
     if (!authenticate()) return;
-    dispatch(addRemoveAlbums({ album }));
+    dispatch(addDeleteAlbum({ albumId }));
   };
 
-  const addRemoveSong = ({ ...song }) => {
+  const addRemoveSong = (songId) => {
     if (!authenticate()) return;
-    dispatch(addRemoveSongs({ song }));
+    setSelectedSongId(songId);
+    dispatch(addDeleteSong({ songId }));
   };
 
   const openModal = () => setShareModalOpen(true);
@@ -65,10 +65,11 @@ const Playlist = () => {
         songNo={index + 1}
         key={song._id}
         isSongSaved={savedSongs?.some(
-          (savedSong) => savedSong._id == song._id && isLoggedIn
+          (savedSong) => savedSong?.songId?._id == song._id && isLoggedIn
         )}
         addRemoveSavedData={addRemoveSong}
         audioTrackIndex={audioTrackIndex}
+        loading={song._id == selectedSongId ? songLoading : false}
       />
     </>
   ));
@@ -91,6 +92,7 @@ const Playlist = () => {
             addDeleteSavedData={handleAddRemoveAlbum}
             openModal={openModal}
             authenticate={authenticate}
+            loading={albumLoading}
           />
           <Box sx={{ mt: "5vh", mb: "15vh" }}>{allSongs}</Box>
         </Box>

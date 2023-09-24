@@ -1,0 +1,10 @@
+.loader {
+    width: 17px;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    border: 2px solid hsl(183, 71%, 50%);
+    border-right-color: hsl(183, 80%, 90%);
+    animation: l2 500ms infinite linear;
+    margin : auto;
+  }
+  @keyframes l2 {to{transform: rotate(1turn)}}

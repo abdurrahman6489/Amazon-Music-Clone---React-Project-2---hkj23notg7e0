@@ -10,9 +10,8 @@ import LINKS from "../../links";
 
 const Music = () => {
   const { savedSongs, isLoggedIn } = useSelector((state) => state?.user);
-
   const navigate = useNavigate();
-
+  const allSavedSongs = savedSongs?.map((song) => ({ ...song.songId }));
   useEffect(() => {
     if (!isLoggedIn) navigate(LINKS.login);
   }, [isLoggedIn]);
@@ -21,8 +20,8 @@ const Music = () => {
     <Box sx={styles.BOX_STYLE}>
       <Category
         mood={"allAlbums"}
-        songs={savedSongs}
-        playListName={"All saved Albums"}
+        songs={allSavedSongs}
+        playListName={"All saved Songs"}
         key={"allAlbums"}
         isFilter={false}
       />

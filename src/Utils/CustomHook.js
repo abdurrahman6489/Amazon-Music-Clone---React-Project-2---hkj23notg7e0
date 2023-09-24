@@ -5,9 +5,9 @@ import { useLocation } from "react-router";
 import { getAlbums } from "../App/features/albums/albumSlice";
 import {
   updateSavedUserDetails,
-  updateSavedAlbums,
-  updateSavedSongs,
   opentheModal,
+  getSavedAlbums,
+  getSavedSongs,
 } from "../App/features/User/userSlice";
 import { setAllSongs } from "../App/features/allSongs/allSongsSlice";
 import {
@@ -29,10 +29,7 @@ export function useUserData() {
   const dispatch = useDispatch();
   const authToken = JSON.parse(localStorage.getItem("auth-token-amazon"));
   const savedUserDetails = getDecodedToken(authToken);
-  const savedUserAlbums = getFromLocalStorage("authUserAlbums");
-  const savedUserSongs = getFromLocalStorage("authUserSongs");
-
-  const { token, savedAlbums, savedSongs } = useSelector((state) => state.user);
+  const { token } = useSelector((state) => state.user);
 
   useEffect(() => {
     if (savedUserDetails && Object.keys(savedUserDetails)?.length > 0) {
@@ -43,18 +40,14 @@ export function useUserData() {
         })
       );
     }
-    if (savedUserAlbums && savedUserAlbums?.length > 0) {
-      dispatch(updateSavedAlbums({ savedAlbums: savedUserAlbums }));
-    }
-    if (savedUserAlbums && savedUserSongs?.length > 0) {
-      dispatch(updateSavedSongs({ savedSongs: savedUserSongs }));
+    if (authToken) {
+      dispatch(getSavedAlbums());
+      dispatch(getSavedSongs());
     }
   }, []);
   useEffect(() => {
     saveToLocalStorage(getAuthTokenKey(), token);
-    saveToLocalStorage("authUserAlbums", savedAlbums);
-    saveToLocalStorage("authUserSongs", savedSongs);
-  }, [savedSongs, savedAlbums, token]);
+  }, [token]);
 }
 
 export function useAllSongs() {
