@@ -1,3 +1,4 @@
+import jwt from "jwt-decode";
 export const getFromLocalStorage = (item) => {
   try {
     return JSON.parse(localStorage.getItem(item));
@@ -91,4 +92,21 @@ export const emailPasswordValidation = ({ email, password }) => {
     emailError,
     passwordError,
   };
+};
+
+export const getAPI_URL = () => "https://amazonmusic-gyeb.onrender.com";
+
+export const getAuthTokenKey = () => "auth-token-amazon";
+export function getHeaderAuth() {
+  return {
+    headers: {
+      authorization: getFromLocalStorage(getAuthTokenKey()) || "",
+    },
+  };
+}
+
+export const getDecodedToken = (token) => {
+  if (!token) return null;
+  const decodedTokenObj = jwt(token);
+  return decodedTokenObj;
 };

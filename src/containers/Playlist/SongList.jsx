@@ -4,9 +4,11 @@ import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import AddIcon from "@mui/icons-material/Add";
 import IconButton from "@mui/material/IconButton";
 import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
+
 import { AiFillPlayCircle } from "react-icons/ai";
 
 import CustomTheme from "../AmazonMusic/CustomTheme";
+import CircularLoader from "./CircularLoader";
 import { useAuthenticate } from "../../Utils/CustomHook";
 
 import { useSelector, useDispatch } from "react-redux";
@@ -30,25 +32,19 @@ const SongList = ({
   addRemoveSavedData,
   isSongSaved,
   album,
+  selectedSongId,
+  loading,
 }) => {
   const dispatch = useDispatch();
   const authenticate = useAuthenticate();
-
   const isActiveSong = audioTrackIndex == songNo - 1;
   const activeColor = isActiveSong ? "secondary" : "primary";
   const iconActiveColor = isActiveSong ? "hsla(183, 71%, 50%, 0.8)" : "#FFF";
   const textActiveColor = isActiveSong ? "hsl(183, 71%, 50%)" : "#FFF";
 
   const addOrRemoveSong = () => {
-    addRemoveSavedData({
-      title,
-      dateOfRelease,
-      mood,
-      thumbnail,
-      audio_url,
-      _id,
-      album,
-    });
+    if (loading) return;
+    addRemoveSavedData(_id);
   };
 
   const handleClick = (event) => {
@@ -116,16 +112,22 @@ const SongList = ({
         </Box>
 
         <Box component="div" flex={2}>
-          <Checkbox
-            aria-label="Add to wishlist"
-            color={activeColor}
-            checked={isSongSaved}
-            name="addSongs"
-            icon={<AddIcon fontSize="medium" color={activeColor} />}
-            checkedIcon={
-              <RemoveCircleOutlineIcon fontSize="medium" color={activeColor} />
-            }
-          />
+          {selectedSongId == _id && loading && <CircularLoader size={18} />}
+          {!(selectedSongId == _id && loading) && (
+            <Checkbox
+              aria-label="Add to wishlist"
+              color={activeColor}
+              checked={isSongSaved}
+              name="addSongs"
+              icon={<AddIcon fontSize="medium" color={activeColor} />}
+              checkedIcon={
+                <RemoveCircleOutlineIcon
+                  fontSize="medium"
+                  color={activeColor}
+                />
+              }
+            />
+          )}
         </Box>
         <Box component="div" flex={2}>
           <IconButton

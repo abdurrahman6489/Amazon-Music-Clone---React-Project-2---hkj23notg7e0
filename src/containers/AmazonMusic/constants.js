@@ -1,23 +1,26 @@
-import { MAKE_COLORS, MAKE_DISPLAY } from "../../Utils/utils";
+import {
+  MAKE_COLORS,
+  MAKE_DISPLAY,
+  getAPI_URL,
+  getHeaderAuth,
+} from "../../Utils/utils";
 
 //for api calls
-export const config = {
-  headers: {
-    projectId: "hkj23notg7e0",
-    // Authorization : "Bearer token"
-  },
-};
+export const config = getHeaderAuth();
 
 export const URLS = {
-  SIGN_IN_AUTH_URL: "https://academics.newtonschool.co/api/v1/user/login",
-  SIGN_UP_AUTH_URL: "https://academics.newtonschool.co/api/v1/user/signup",
-  UPDATE_PASSWORD_URL:
-    "https://academics.newtonschool.co/api/v1/user/updateMyPassword",
-  SONG_URL:
-    "https://academics.newtonschool.co/api/v1/music/song?page=1&limit=100",
-  ALBUM_URL: "https://academics.newtonschool.co/api/v1/music/album",
+  SIGN_IN_AUTH_URL: `${getAPI_URL()}/api/v1/users/login`,
+  SIGN_UP_AUTH_URL: `${getAPI_URL()}/api/v1/users/register`,
+  UPDATE_PASSWORD_URL: `${getAPI_URL()}/api/v1/users/updatePassword`,
+  SIGN_OUT_URL: `${getAPI_URL()}/api/v1/users/logout`,
+  SONG_URL: `${getAPI_URL()}/api/v1/songs/getSongs`,
+  ALBUM_URL: `${getAPI_URL()}/api/v1/albums/getAlbums`,
   ALL_ARTISTS_URL: "https://academics.newtonschool.co/api/v1/music/artist/",
-  SEARCH_URL: "https://academics.newtonschool.co/api/v1/music/song?filter=",
+  SEARCH_URL: `${getAPI_URL()}/api/v1/songs/getSongs?filter=`,
+  SAVED_SONG_URL: `${getAPI_URL()}/api/v1/savedSongs/getSavedSongs`,
+  ADD_DELETE_SONG_URL: `${getAPI_URL()}/api/v1/savedSongs/addDeleteSong`,
+  SAVED_ALBUM_URL: `${getAPI_URL()}/api/v1/savedAlbums/getSavedAlbums`,
+  ADD_DELETE_ALBUM_URL: `${getAPI_URL()}/api/v1/savedAlbums/addDeleteAlbum`,
   BASE_URL: "https://musical-amazon.netlify.app",
 };
 

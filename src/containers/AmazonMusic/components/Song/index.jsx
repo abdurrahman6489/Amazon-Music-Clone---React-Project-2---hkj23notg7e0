@@ -16,7 +16,16 @@ import { styles } from "./index.style";
 import { Box, Fab } from "@mui/material";
 import PlayButton from "./PlayButton";
 
-const Song = ({ title, album, artist, mood, thumbnail, audio_url }) => {
+const Song = ({
+  _id,
+  album,
+  title,
+  artists,
+  mood,
+  image,
+  thumbnail,
+  audio_url,
+}) => {
   const [isHovered, setIsHovered] = useState(false);
 
   const setHoverTrue = () => setIsHovered(true);
@@ -30,12 +39,12 @@ const Song = ({ title, album, artist, mood, thumbnail, audio_url }) => {
         sx={styles.IMG_BOX_STYLE}
         onMouseOver={setHoverTrue}
         onMouseOut={setHoverFalse}
-        onClick={() => navigate(`${LINKS.playlist}/${album}`)}
+        onClick={() => navigate(`${LINKS.playlist}/${album || _id}`)}
       >
         <CardMedia
           component="img"
           height="135"
-          image={thumbnail}
+          image={image || thumbnail}
           alt={title}
           sx={{ ...styles.IMAGE_STYLE }}
         />
@@ -56,7 +65,7 @@ const Song = ({ title, album, artist, mood, thumbnail, audio_url }) => {
           noWrap
           sx={styles.ARTISTS_STYLE}
         >
-          {artist?.map((artist) => artist.name).join(" ")}
+          {artists?.join(" ")}
         </Typography>
       </CardContent>
     </Card>

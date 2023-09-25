@@ -9,12 +9,9 @@ import Error from "../../../Login/Error";
 import { styles } from "./index.style";
 const Body = () => {
   const { loading, albums, error } = useSelector((state) => state.albums);
-  const isLoading = useSelector((state) => state.allSongs.loading);
 
-  const hasError = useSelector((state) => state.allSongs.error);
-
-  if (loading || isLoading) return <Loader />;
-  if (error || hasError) return <Error msg={error} />;
+  if (loading) return <Loader />;
+  if (error) return <Error msg={error} />;
 
   return (
     <Box sx={styles.BOX_STYLE}>

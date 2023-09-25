@@ -25,7 +25,7 @@ import {
 } from "../../Utils/utils";
 
 function Login() {
-  const { isLoggedIn, isPasswordUpdate, loading, error, name } = useSelector(
+  const { isLoggedIn, isPasswordUpdate, userLoading, error } = useSelector(
     (state) => state?.user
   );
   const [userData, setUserData] = useState(INITIAL_STATE_LOG_IN);
@@ -90,12 +90,11 @@ function Login() {
       //dispatch login action
       //submit user data
       const submitData = {
-        name,
         email: userData?.email,
-        passwordCurrent: userData?.password,
-        password: updatePasswordObj?.value,
+        password: userData?.password,
+        newPassword: updatePasswordObj?.value,
       };
-      dispatch(updatePassword({ ...submitData, appType: "music" }));
+      dispatch(updatePassword({ ...submitData }));
       resetData();
     }
   };
@@ -117,7 +116,7 @@ function Login() {
   const { emailError, passwordError } = errorData;
   const { value, updatePasswordError } = updatePasswordObj;
 
-  if (loading) return <Loader />;
+  if (userLoading) return <Loader />;
 
   return (
     <Stack sx={styles.STACK_STYLE}>

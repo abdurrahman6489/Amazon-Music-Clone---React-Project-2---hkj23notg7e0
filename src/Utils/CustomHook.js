@@ -5,12 +5,17 @@ import { useLocation } from "react-router";
 import { getAlbums } from "../App/features/albums/albumSlice";
 import {
   updateSavedUserDetails,
-  updateSavedAlbums,
-  updateSavedSongs,
   opentheModal,
+  getSavedAlbums,
+  getSavedSongs,
 } from "../App/features/User/userSlice";
 import { setAllSongs } from "../App/features/allSongs/allSongsSlice";
-import { getFromLocalStorage, saveToLocalStorage } from "./utils";
+import {
+  getFromLocalStorage,
+  saveToLocalStorage,
+  getDecodedToken,
+  getAuthTokenKey,
+} from "./utils";
 import { setMsgDisplayedFalse } from "../App/features/User/registerUserSlice";
 
 export function useAlbums() {
@@ -22,40 +27,27 @@ export function useAlbums() {
 
 export function useUserData() {
   const dispatch = useDispatch();
-  const savedUserDetails = getFromLocalStorage("authUserDetails");
-  const savedUserAlbums = getFromLocalStorage("authUserAlbums");
-  const savedUserSongs = getFromLocalStorage("authUserSongs");
-  const { name, email, token, savedAlbums, savedSongs } = useSelector(
-    (state) => state.user
-  );
-  const isLoggedIn = token ? true : false;
-  const userDetails = {
-    name,
-    email,
-    token,
-    isLoggedIn,
-  };
+  const authToken = JSON.parse(localStorage.getItem("auth-token-amazon"));
+  const savedUserDetails = getDecodedToken(authToken);
+  const { token } = useSelector((state) => state.user);
 
   useEffect(() => {
-    if (
-      savedUserDetails &&
-      Object.keys(savedUserDetails)?.length > 0 &&
-      savedUserDetails?.token
-    ) {
-      dispatch(updateSavedUserDetails({ ...savedUserDetails }));
+    if (savedUserDetails && Object.keys(savedUserDetails)?.length > 0) {
+      dispatch(
+        updateSavedUserDetails({
+          ...savedUserDetails,
+          authToken,
+        })
+      );
     }
-    if (savedUserAlbums && savedUserAlbums?.length > 0) {
-      dispatch(updateSavedAlbums({ savedAlbums: savedUserAlbums }));
-    }
-    if (savedUserAlbums && savedUserSongs?.length > 0) {
-      dispatch(updateSavedSongs({ savedSongs: savedUserSongs }));
+    if (authToken) {
+      dispatch(getSavedAlbums());
+      dispatch(getSavedSongs());
     }
   }, []);
   useEffect(() => {
-    saveToLocalStorage("authUserDetails", userDetails);
-    saveToLocalStorage("authUserAlbums", savedAlbums);
-    saveToLocalStorage("authUserSongs", savedSongs);
-  }, [savedSongs, savedAlbums, userDetails]);
+    saveToLocalStorage(getAuthTokenKey(), token);
+  }, [token]);
 }
 
 export function useAllSongs() {

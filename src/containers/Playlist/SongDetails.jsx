@@ -29,19 +29,17 @@ import { SONG_DETAILS_COLOR } from "../AmazonMusic/constants";
 import { useAuthenticate } from "../../Utils/CustomHook";
 
 import { styles } from "./songDetails.style";
+import CircularLoader from "./CircularLoader";
 
 const SongDetails = ({
-  title,
-  artists,
-  description,
+  album,
   songs,
-  image,
-  release,
-  _id,
   isDataSaved,
   addDeleteSavedData,
   openModal,
+  loading,
 }) => {
+  const { title, artists, description, image, release, _id } = album || {};
   const { playerPlaying } = useSelector((state) => state?.selectedAlbums);
   const authenticate = useAuthenticate();
   const dispatch = useDispatch();
@@ -52,15 +50,7 @@ const SongDetails = ({
   };
   const handleAddRemove = () => {
     if (!authenticate()) return;
-    addDeleteSavedData({
-      title,
-      artists,
-      description,
-      songs,
-      image,
-      release,
-      _id,
-    });
+    addDeleteSavedData(_id);
   };
 
   const handlePlay = () => {
@@ -127,7 +117,7 @@ const SongDetails = ({
                   ...styles.TEXT_ALIGN_STYLE,
                 }}
               >
-                {artists?.map((artist) => artist.name).join(", ")}
+                {artists?.join(", ")}
               </Typography>
               <Typography
                 variant="subtitle1"
@@ -155,14 +145,17 @@ const SongDetails = ({
               >
                 <ShuffleIcon />
               </IconButton>
-              <Checkbox
-                aria-label="Add to wishlist"
-                color="primary"
-                checked={isDataSaved}
-                onChange={handleAddRemove}
-                icon={<AddIcon color="primary" fontSize="large" />}
-                checkedIcon={<RemoveCircleOutlineIcon fontSize="large" />}
-              />
+              {loading && <CircularLoader size={25} />}
+              {!loading && (
+                <Checkbox
+                  aria-label="Add to wishlist"
+                  color="primary"
+                  checked={isDataSaved}
+                  onChange={handleAddRemove}
+                  icon={<AddIcon color="primary" fontSize="large" />}
+                  checkedIcon={<RemoveCircleOutlineIcon fontSize="large" />}
+                />
+              )}
               <IconButton
                 aria-label="next"
                 color="primary"
