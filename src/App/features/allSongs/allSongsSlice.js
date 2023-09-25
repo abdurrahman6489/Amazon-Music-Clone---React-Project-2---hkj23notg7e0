@@ -7,7 +7,6 @@ const initialState = {
   loading: false,
   error: "",
   successful: false,
-  currentPlayList: "",
 };
 
 export const getAllSongs = createAsyncThunk(
@@ -35,9 +34,6 @@ export const allSongsSlice = createSlice({
     setAllSongs: (state, { payload }) => {
       state.allSongs = payload;
     },
-    setCurrentPlayst: (state, { payload }) => {
-      state.currentPlayList = payload;
-    },
   },
   extraReducers: {
     [getAllSongs.pending]: (state) => {
@@ -58,5 +54,5 @@ export const allSongsSlice = createSlice({
   },
 });
 
-export const { setAllSongs, setCurrentPlayst } = allSongsSlice.actions;
+export const { setAllSongs } = allSongsSlice.actions;
 export default allSongsSlice.reducer;

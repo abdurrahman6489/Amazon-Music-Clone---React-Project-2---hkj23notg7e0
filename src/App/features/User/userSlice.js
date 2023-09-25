@@ -44,7 +44,7 @@ export const updatePassword = createAsyncThunk(
   "user/updatePasswordRedux",
   async (credentials, { rejectWithValue }) => {
     try {
-      const response = await axios.patch(
+      const response = await axios.post(
         URLS.UPDATE_PASSWORD_URL,
         credentials,
         config
@@ -55,6 +55,20 @@ export const updatePassword = createAsyncThunk(
     } catch (error) {
       console.log(error.response.data.message);
       return rejectWithValue(error.response.data.message);
+    }
+  }
+);
+
+export const logoutUser = createAsyncThunk(
+  "user/logoutUser",
+  async (thunkAPI) => {
+    try {
+      const response = await axios.post(URLS.SIGN_OUT_URL, config, config);
+      const message = response.data.message;
+      return message;
+    } catch (error) {
+      console.log(error.response.data.message);
+      return thunkAPI.rejectWithValue(error.response.data.message);
     }
   }
 );
@@ -131,12 +145,6 @@ export const userSlice = createSlice({
       state.role = role;
       state.isLoggedIn = true;
     },
-    signOutUser: (state) => {
-      state.isLoggedIn = false;
-      state.name = "";
-      state.email = "";
-      state.token = "";
-    },
     opentheModal: (state) => {
       state.modalOpen = true;
     },
@@ -181,6 +189,22 @@ export const userSlice = createSlice({
       state.isPasswordUpdate = false;
     },
     [updatePassword.rejected]: (state, { payload }) => {
+      state.userLoading = false;
+      state.error = payload;
+    },
+    [logoutUser.pending]: (state) => {
+      state.userLoading = true;
+    },
+    [logoutUser.fulfilled]: (state) => {
+      state.isLoggedIn = false;
+      state.name = "";
+      state.email = "";
+      state.token = "";
+      state.role = "";
+      state.userLoading = false;
+      state.error = "";
+    },
+    [logoutUser.rejected]: (state, { payload }) => {
       state.userLoading = false;
       state.error = payload;
     },
@@ -236,7 +260,6 @@ export const userSlice = createSlice({
 });
 export const {
   updateSavedUserDetails,
-  signOutUser,
   opentheModal,
   closetheModal,
   setPasswordUpdateTrue,

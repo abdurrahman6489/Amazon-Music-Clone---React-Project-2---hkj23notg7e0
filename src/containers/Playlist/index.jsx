@@ -31,8 +31,14 @@ const Playlist = () => {
   const { loading, selectedAlbum, audioTrackIndex, error } = useSelector(
     (state) => state?.selectedAlbums
   );
-  const { savedAlbums, savedSongs, isLoggedIn, songLoading, albumLoading } =
-    useSelector((state) => state?.user);
+  const {
+    savedAlbums,
+    savedSongs,
+    isLoggedIn,
+    songLoading,
+    albumLoading,
+    error: userError,
+  } = useSelector((state) => state?.user);
   const isAlbumSaved = savedAlbums?.some(
     (savedAlbum) => savedAlbum?.albumId?._id === id && isLoggedIn
   );
@@ -55,7 +61,7 @@ const Playlist = () => {
   }, []);
 
   if (loading) return <Loader />;
-  if (error) return <Error msg={error} />;
+  if (error || userError) return <Error msg={error} />;
 
   const allSongs = selectedAlbum?.songs?.map((song, index) => (
     <>
@@ -69,7 +75,8 @@ const Playlist = () => {
         )}
         addRemoveSavedData={addRemoveSong}
         audioTrackIndex={audioTrackIndex}
-        loading={song._id == selectedSongId ? songLoading : false}
+        loading={songLoading}
+        selectedSongId={selectedSongId}
       />
     </>
   ));

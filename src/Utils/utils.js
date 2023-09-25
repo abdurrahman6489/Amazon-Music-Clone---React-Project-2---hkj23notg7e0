@@ -97,14 +97,13 @@ export const emailPasswordValidation = ({ email, password }) => {
 export const getAPI_URL = () => "https://amazonmusic-gyeb.onrender.com";
 
 export const getAuthTokenKey = () => "auth-token-amazon";
-
-export const getHeaderAuth = () => {
+export function getHeaderAuth() {
   return {
     headers: {
-      authorization: JSON.parse(localStorage.getItem(getAuthTokenKey())),
+      authorization: getFromLocalStorage(getAuthTokenKey()) || "",
     },
   };
-};
+}
 
 export const getDecodedToken = (token) => {
   if (!token) return null;

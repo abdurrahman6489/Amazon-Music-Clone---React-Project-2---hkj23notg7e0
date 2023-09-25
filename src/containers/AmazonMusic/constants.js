@@ -11,8 +11,8 @@ export const config = getHeaderAuth();
 export const URLS = {
   SIGN_IN_AUTH_URL: `${getAPI_URL()}/api/v1/users/login`,
   SIGN_UP_AUTH_URL: `${getAPI_URL()}/api/v1/users/register`,
-  UPDATE_PASSWORD_URL:
-    "https://academics.newtonschool.co/api/v1/user/updateMyPassword",
+  UPDATE_PASSWORD_URL: `${getAPI_URL()}/api/v1/users/updatePassword`,
+  SIGN_OUT_URL: `${getAPI_URL()}/api/v1/users/logout`,
   SONG_URL: `${getAPI_URL()}/api/v1/songs/getSongs`,
   ALBUM_URL: `${getAPI_URL()}/api/v1/albums/getAlbums`,
   ALL_ARTISTS_URL: "https://academics.newtonschool.co/api/v1/music/artist/",

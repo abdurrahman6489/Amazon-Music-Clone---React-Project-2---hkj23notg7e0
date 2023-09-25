@@ -27,7 +27,6 @@ import { useSelector } from "react-redux";
 function App() {
   useAlbums();
   useUserData();
-  useAllSongs();
   const { msgDisplayed, message, handleClose } = useMessage();
   const { open, msg } = useSelector((state) => state?.comingSoon);
   const router = createBrowserRouter([
@@ -97,7 +96,7 @@ function App() {
       ),
     },
     {
-      path: links.allSongs,
+      path: `${links.allSongs}/:playListName`,
       element: (
         <Layout>
           <AllSongs />

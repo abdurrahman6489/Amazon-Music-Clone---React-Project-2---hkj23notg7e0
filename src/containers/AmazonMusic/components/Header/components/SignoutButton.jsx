@@ -3,15 +3,17 @@ import { Fab, IconButton, Typography } from "@mui/material";
 import LINKS from "../../../../links";
 import { useNavigate } from "react-router";
 import CustomTheme from "../../../CustomTheme";
+import CircularLoader from "../../../../Playlist/CircularLoader";
 import { SIGN_IN_SIGN_OUT_BTN_COLOR } from "../../../constants";
 
-import { signOutUser } from "../../../../../App/features/User/userSlice";
-import { useDispatch } from "react-redux";
+import { logoutUser } from "../../../../../App/features/User/userSlice";
+import { useSelector, useDispatch } from "react-redux";
 const SignoutButton = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { userLoading } = useSelector((state) => state?.user);
   const handleClick = () => {
-    dispatch(signOutUser());
+    dispatch(logoutUser());
     navigate(LINKS.login);
   };
   return (
@@ -26,6 +28,7 @@ const SignoutButton = () => {
         <Typography variant="button" color="secondary">
           Sign out
         </Typography>
+        {userLoading && <CircularLoader size={15} />}
       </IconButton>
     </CustomTheme>
   );

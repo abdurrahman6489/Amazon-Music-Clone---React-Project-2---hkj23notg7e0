@@ -25,8 +25,9 @@ import {
 } from "../../Utils/utils";
 
 function Login() {
-  const { isLoggedIn, isPasswordUpdate, userLoading, error, name } =
-    useSelector((state) => state?.user);
+  const { isLoggedIn, isPasswordUpdate, userLoading, error } = useSelector(
+    (state) => state?.user
+  );
   const [userData, setUserData] = useState(INITIAL_STATE_LOG_IN);
   const [errorData, setErrorData] = useState(INITIAL_ERROR_DATA_LOG_IN);
   const [updatePasswordObj, setUpdatePasswordObj] = useState(
@@ -89,12 +90,11 @@ function Login() {
       //dispatch login action
       //submit user data
       const submitData = {
-        name,
         email: userData?.email,
-        passwordCurrent: userData?.password,
-        password: updatePasswordObj?.value,
+        password: userData?.password,
+        newPassword: updatePasswordObj?.value,
       };
-      dispatch(updatePassword({ ...submitData, appType: "music" }));
+      dispatch(updatePassword({ ...submitData }));
       resetData();
     }
   };

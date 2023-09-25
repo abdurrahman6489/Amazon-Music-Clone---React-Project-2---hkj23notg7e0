@@ -32,6 +32,7 @@ const SongList = ({
   addRemoveSavedData,
   isSongSaved,
   album,
+  selectedSongId,
   loading,
 }) => {
   const dispatch = useDispatch();
@@ -42,6 +43,7 @@ const SongList = ({
   const textActiveColor = isActiveSong ? "hsl(183, 71%, 50%)" : "#FFF";
 
   const addOrRemoveSong = () => {
+    if (loading) return;
     addRemoveSavedData(_id);
   };
 
@@ -110,8 +112,8 @@ const SongList = ({
         </Box>
 
         <Box component="div" flex={2}>
-          {loading && <CircularLoader size={18} />}
-          {!loading && (
+          {selectedSongId == _id && loading && <CircularLoader size={18} />}
+          {!(selectedSongId == _id && loading) && (
             <Checkbox
               aria-label="Add to wishlist"
               color={activeColor}
