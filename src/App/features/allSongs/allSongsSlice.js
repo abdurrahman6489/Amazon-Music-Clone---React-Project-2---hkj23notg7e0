@@ -11,11 +11,11 @@ const initialState = {
 
 export const getAllSongs = createAsyncThunk(
   "songs/getAllSongs",
-  async (playListName, { rejectWithValue }) => {
-    const filterString = JSON.stringify({ playListName: playListName });
+  async ({ filterBy, filterValue }, { rejectWithValue }) => {
+    const filterString = JSON.stringify({ [filterBy]: filterValue });
     try {
       const response = await axios.get(
-        `${URLS.ALBUM_URL}?filter=${filterString}`,
+        `${URLS.ALBUM_SONG_URL}?filter=${filterString}`,
         config
       );
       const allSongs = response.data.data;

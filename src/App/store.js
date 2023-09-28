@@ -1,5 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import albumReducer from "./features/albums/albumSlice";
+import podcastReducer from "./features/Podcast/podcastSlice";
 import selectedAlbumReducer from "./features/albums/selectedAlbumSlice";
 import searchSongReducer from "./features/SearchSongs/SearchSongSlice";
 import userReducer from "./features/User/userSlice";
@@ -9,6 +10,7 @@ import comingSoonReducer from "./features/comingSoon/comingSoonSlice";
 export const store = configureStore({
   reducer: {
     albums: albumReducer,
+    podcasts: podcastReducer,
     selectedAlbums: selectedAlbumReducer,
     searchSong: searchSongReducer,
     user: userReducer,

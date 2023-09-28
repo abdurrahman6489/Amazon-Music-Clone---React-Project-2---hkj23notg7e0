@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import Category from "../Category";
 
 import { useSelector } from "react-redux";
@@ -7,9 +7,11 @@ import Loader from "../Loader";
 import { categoryArray } from "../../constants";
 import Error from "../../../Login/Error";
 import { styles } from "./index.style";
+import { useNavigate } from "react-router";
+import LINKS from "../../../links";
 const Body = () => {
   const { loading, albums, error } = useSelector((state) => state.albums);
-
+  const navigate = useNavigate();
   if (loading) return <Loader />;
   if (error) return <Error msg={error} />;
 
@@ -24,6 +26,9 @@ const Body = () => {
             playListName={playListName}
             key={mood}
             isFilter={isFilter}
+            seeAllSongs={() =>
+              navigate(`${LINKS.allSongs}/playListName/${playListName}`)
+            }
           />
         );
       })}

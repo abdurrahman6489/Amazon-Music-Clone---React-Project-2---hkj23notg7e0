@@ -11,10 +11,10 @@ import "./style.css";
 import { styles } from "./index.style";
 const AllSongs = () => {
   const { allSongs, loading, error } = useSelector((state) => state?.allSongs);
-  const { playListName } = useParams();
+  const { filterBy, filterValue } = useParams();
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(getAllSongs(playListName));
+    dispatch(getAllSongs({ filterBy, filterValue }));
   }, []);
 
   if (loading) return <CircularLoader size={50} />;

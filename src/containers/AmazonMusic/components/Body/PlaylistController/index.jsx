@@ -7,7 +7,14 @@ import CustomTheme from "../../../CustomTheme";
 import { BODY_PLAYLIST_BTN_COLOR } from "../../../constants";
 import { styles } from "./index.style";
 
-const PlayListController = ({ playListName, next, prev, box, seeAllSongs }) => {
+const PlayListController = ({
+  playListName,
+  next,
+  prev,
+  box,
+  seeAllSongs,
+  mood,
+}) => {
   const handleClick = () => {
     seeAllSongs();
   };
@@ -16,7 +23,7 @@ const PlayListController = ({ playListName, next, prev, box, seeAllSongs }) => {
     <Box component="div" sx={styles.CONTAINER_STYLE}>
       <Stack sx={styles.STACK_STYLE}>
         <Typography variant="h6" color="#FFF" noWrap sx={styles.TITLE_STYLE}>
-          {playListName}
+          {playListName || mood}
         </Typography>
 
         <Box sx={styles.BTN_CONTAINER_STYLE}>

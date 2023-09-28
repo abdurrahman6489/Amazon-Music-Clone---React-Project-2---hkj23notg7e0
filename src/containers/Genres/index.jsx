@@ -6,10 +6,12 @@ import { Box } from "@mui/material";
 
 import { getSearchedSongs } from "../../App/features/SearchSongs/SearchSongSlice";
 import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router";
 
 import Loader from "../AmazonMusic/components/Loader";
 import Category from "../AmazonMusic/components/Category";
 import EmptyRecords from "../AmazonMusic/components/EmptyRecords";
+import LINKS from "../links";
 
 import { styles } from "./index.style";
 
@@ -22,6 +24,8 @@ const Genres = () => {
   const dispatch = useDispatch();
 
   let searchObject = JSON.stringify({ [filterBy]: filter });
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     dispatch(getSearchedSongs(searchObject));
@@ -39,6 +43,7 @@ const Genres = () => {
         playListName={"Top Results"}
         key={"happy"}
         isFilter={false}
+        seeAllSongs={() => navigate(`${LINKS.allSongs}/${filterBy}/${filter}`)}
       />
     </Box>
   );

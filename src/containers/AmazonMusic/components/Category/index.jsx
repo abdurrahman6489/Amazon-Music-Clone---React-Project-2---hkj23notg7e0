@@ -10,15 +10,16 @@ import PlayListController from "../Body/PlaylistController";
 
 import LINKS from "../../../links";
 import { styles } from "./index.style";
-const Category = ({ mood, playListName, songs, isFilter }) => {
+const Category = ({ mood, playListName, songs, isFilter, seeAllSongs }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const boxRef = useRef();
 
   let filterFunction;
-  if (isFilter) {
+  if (!isFilter) filterFunction = (song) => true;
+  else if (playListName) {
     filterFunction = (song) => song.playListName === playListName;
-  } else filterFunction = (song) => true;
+  } else filterFunction = (song) => song.mood === mood;
 
   let filteredSongs = songs?.filter(filterFunction);
 
@@ -32,14 +33,11 @@ const Category = ({ mood, playListName, songs, isFilter }) => {
     boxRef.current.scrollLeft = boxRef.current.scrollLeft - width;
   };
 
-  const seeAllSongs = () => {
-    navigate(`${LINKS.allSongs}/${playListName}`);
-  };
-
   return (
     <>
       <PlayListController
-        playListName={playListName}
+        playListName={playListName || ""}
+        mood={mood || ""}
         next={nextCards}
         prev={prevCards}
         box={boxRef}

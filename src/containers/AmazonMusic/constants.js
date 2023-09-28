@@ -15,7 +15,7 @@ export const URLS = {
   SIGN_OUT_URL: `${getAPI_URL()}/api/v1/users/logout`,
   SONG_URL: `${getAPI_URL()}/api/v1/songs/getSongs`,
   ALBUM_URL: `${getAPI_URL()}/api/v1/albums/getAlbums`,
-  ALL_ARTISTS_URL: "https://academics.newtonschool.co/api/v1/music/artist/",
+  ALBUM_SONG_URL: `${getAPI_URL()}/api/v1/albumSong/albumSong`,
   SEARCH_URL: `${getAPI_URL()}/api/v1/songs/getSongs?filter=`,
   SAVED_SONG_URL: `${getAPI_URL()}/api/v1/savedSongs/getSavedSongs`,
   ADD_DELETE_SONG_URL: `${getAPI_URL()}/api/v1/savedSongs/addDeleteSong`,

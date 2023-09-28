@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useLocation } from "react-router";
 
 import { getAlbums } from "../App/features/albums/albumSlice";
+import { getPodcasts } from "../App/features/Podcast/podcastSlice";
 import {
   updateSavedUserDetails,
   opentheModal,
@@ -22,6 +23,13 @@ export function useAlbums() {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getAlbums());
+  }, []);
+}
+
+export function usePodcasts() {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getPodcasts());
   }, []);
 }
 
@@ -48,22 +56,6 @@ export function useUserData() {
   useEffect(() => {
     saveToLocalStorage(getAuthTokenKey(), token);
   }, [token]);
-}
-
-export function useAllSongs() {
-  const dispatch = useDispatch();
-  const savedSongs = getFromLocalStorage("allSongs", []);
-  const { allSongs } = useSelector((state) => state.allSongs);
-
-  useEffect(() => {
-    if (savedSongs?.length > 0) {
-      dispatch(setAllSongs(savedSongs));
-    }
-  }, []);
-
-  useEffect(() => {
-    saveToLocalStorage("allSongs", allSongs);
-  }, [allSongs]);
 }
 
 export function useScrolltoTop() {

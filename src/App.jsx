@@ -11,9 +11,9 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import links from "./containers/links";
 import {
   useUserData,
-  useAllSongs,
   useAlbums,
   useMessage,
+  usePodcasts,
 } from "./Utils/CustomHook";
 import SearchPage from "./containers/SearchPage";
 import Genres from "./containers/Genres";
@@ -26,6 +26,7 @@ import { useSelector } from "react-redux";
 
 function App() {
   useAlbums();
+  usePodcasts();
   useUserData();
   const { msgDisplayed, message, handleClose } = useMessage();
   const { open, msg } = useSelector((state) => state?.comingSoon);
@@ -96,7 +97,7 @@ function App() {
       ),
     },
     {
-      path: `${links.allSongs}/:playListName`,
+      path: `${links.allSongs}/:filterBy/:filterValue`,
       element: (
         <Layout>
           <AllSongs />
